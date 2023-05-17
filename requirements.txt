@@ -10,5 +10,5 @@ pandas==1.4.1
 Pillow==9.5.0
 Requests==2.30.0
 scipy==1.8.1
-torch==1.8.1+cu111
+torch==1.8.1
 ultralytics==8.0.105
