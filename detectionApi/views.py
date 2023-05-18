@@ -236,17 +236,20 @@ class FaceView(generics.CreateAPIView):
         res = detectDrowsiness(image_data)
 
         status_buffer.append(res)
-
+        final_status = ""
         if len(status_buffer) == 10:
             drowsy_ratio = status_buffer.count("Drowsy") / float(10)
             if drowsy_ratio >= 0.7:
                 final_status = "Drowsy"
-                return Response({'message': 'Image received',  "res": final_status})
+                requests.post(
+                    "https://maker.ifttt.com/trigger/alarm/with/key/d3v8sseU7i5wgirNL-_If0")
                 # Take action or trigger an alert for drowsy driver
             else:
                 final_status = "Awake"
-                print("Final Status:", final_status)
-                return Response({'message': 'Image received',  "res": final_status})
+
+        print("Final Status:", final_status)
+
+        return Response({'message': 'Image received',  "res": final_status})
         return Response({'message': 'Image received',  "res": "null"})
 
 
