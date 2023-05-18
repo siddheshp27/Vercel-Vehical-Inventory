@@ -43,9 +43,12 @@ def test(image_data):
     # model = torch.hub.load('ultralytics/yolov5', 'custom',
     #                        path='bestnew.pt', force_reload=True)
 
-    model = YOLO('bestnew.pt')
+    model = YOLO('pomo.pt')
 
     img = Image.open(BytesIO(image_data.read()))
+    # img = img.convert('RGB')
+
+    # img = Image.open('Cars_car_Auto_-770x433.webp')
 
     results = model(img)
     names = model.names
@@ -54,9 +57,13 @@ def test(image_data):
     for r in results:
         for c in r.boxes.cls:
             class_set.add(names[int(c)])
-    print(class_set)
+    # print(class_set)
     res_plotted = results[0].plot()
     image = Image.fromarray(res_plotted.astype(np.uint8))
+
+    boxes = results[0].boxes
+    for box in boxes:
+        print(box.xyxy)
 
     present_vehicles = []
 
@@ -73,7 +80,9 @@ def test(image_data):
         present_vehicles.append('motorbike')
 
 # Save the image
+    img = image.convert('RGB')
     image.save("output_image.png")
+    img.save("outpu_image.png")
 # for result in results:
 #     boxes = result.boxes  # Boxes object for bbox outputs
 #     print(boxes)
